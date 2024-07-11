@@ -24,6 +24,45 @@ Y = fft(y);
 % 周波数ベクトルの生成
 f_vec = (0:N-1)*(1/(N*dt));
 
+% 結果のプロット
+figure;
+
+% ノイズを加えたサイン波のプロット
+subplot(2, 1, 1);
+grid on
+hold on
+plot(times, x);
+title('Noisy Sine Wave');
+xlabel('Time (s)');
+ylabel('Amplitude');
+
+% サイン波のフーリエ変換結果のプロット
+subplot(2, 1, 2);
+grid on
+hold on
+plot(f_vec, abs(X));
+title('Fourier Transform of Noisy Sine Wave');
+xlabel('Frequency (Hz)');
+ylabel('Amplitude');
+
+% ノイズを加えた矩形波のプロット
+subplot(2, 2, 1);
+grid on
+hold on
+plot(times, y);
+title('Noisy Square Wave');
+xlabel('Time (s)');
+ylabel('Amplitude');
+
+% 矩形波のフーリエ変換結果のプロット
+subplot(2, 2, 2);
+grid on
+hold on
+plot(f_vec, abs(Y));
+title('Fourier Transform of Noisy Square Wave');
+xlabel('Frequency (Hz)');
+ylabel('Amplitude');
+
 % ローパスフィルタの適用
 phi_r = x; % サイン波のノイズを加えた信号を使用
 phi_r_f = zeros(size(phi_r));
@@ -42,38 +81,38 @@ end
 % 結果のプロット
 figure;
 
-% ノイズを加えたサイン波のプロット
-subplot(2, 2, 1);
-plot(times, x);
-title('Noisy Sine Wave');
-xlabel('Time (s)');
-ylabel('Amplitude');
-
-% サイン波のフーリエ変換結果のプロット
-subplot(2, 2, 2);
-plot(f_vec, abs(X));
-title('Fourier Transform of Noisy Sine Wave');
-xlabel('Frequency (Hz)');
-ylabel('Amplitude');
-
-% ノイズを加えた矩形波のプロット
-subplot(2, 2, 3);
-plot(times, y);
-title('Noisy Square Wave');
-xlabel('Time (s)');
-ylabel('Amplitude');
-
-% 矩形波のフーリエ変換結果のプロット
-subplot(2, 2, 4);
-plot(f_vec, abs(Y));
-title('Fourier Transform of Noisy Square Wave');
-xlabel('Frequency (Hz)');
-ylabel('Amplitude');
-
-
 % ローパスフィルタ後のサイン波のプロット
-subplot(2, 1, 2);
+subplot(2, 3, 1);
+grid on
+hold on
 plot(times, phi_r_f);
 title('Low-Pass Filtered Sine Wave');
+xlabel('Time (s)');
+ylabel('Amplitude');
+
+% ローパスフィルタの適用
+phi_r = y; % サイン波のノイズを加えた信号を使用
+phi_r_f = zeros(size(phi_r));
+D_phi_r_f = zeros(size(phi_r));
+
+for i = 1:length(phi_r)
+    if i == 1
+        phi_r_f(i) = phi_r(i);
+        D_phi_r_f(i) = 0;
+    else
+        D_phi_r_f(i) = (1/Tp) * (phi_r(i) - phi_r_f(i-1));
+        phi_r_f(i) = D_phi_r_f(i) * dt + phi_r_f(i-1);
+    end
+end
+
+% 結果のプロット
+figure;
+
+% ローパスフィルタ後のサイン波のプロット
+subplot(2, 3, 2);
+grid on
+hold on
+plot(times, phi_r_f);
+title('Noisy Square Wave');
 xlabel('Time (s)');
 ylabel('Amplitude');
