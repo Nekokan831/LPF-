@@ -24,6 +24,21 @@ Y = fft(y);
 % 周波数ベクトルの生成
 f_vec = (0:N-1)*(1/(N*dt));
 
+% ローパスフィルタの適用
+phi_r = x; % サイン波のノイズを加えた信号を使用
+phi_r_f = zeros(size(phi_r));
+D_phi_r_f = zeros(size(phi_r));
+
+for i = 1:length(phi_r)
+    if i == 1
+        phi_r_f(i) = phi_r(i);
+        D_phi_r_f(i) = 0;
+    else
+        D_phi_r_f(i) = (1/Tp) * (phi_r(i) - phi_r_f(i-1));
+        phi_r_f(i) = D_phi_r_f(i) * dt + phi_r_f(i-1);
+    end
+end
+
 % 結果のプロット
 figure;
 
@@ -53,4 +68,12 @@ subplot(2, 2, 4);
 plot(f_vec, abs(Y));
 title('Fourier Transform of Noisy Square Wave');
 xlabel('Frequency (Hz)');
+ylabel('Amplitude');
+
+
+% ローパスフィルタ後のサイン波のプロット
+subplot(2, 1, 2);
+plot(times, phi_r_f);
+title('Low-Pass Filtered Sine Wave');
+xlabel('Time (s)');
 ylabel('Amplitude');
