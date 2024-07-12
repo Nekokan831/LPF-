@@ -1,7 +1,12 @@
+clc
+clear
+close all
+
 % パラメータ設定
 dt = 0.001; % 1ステップの時間 [秒]
 times = 0:dt:1-dt; % 時間ベクトル
 N = length(times); % サンプル数
+Tp = 0.04; % 時定数
 
 f = 5; % サイン波の周波数 [Hz]
 sigma = 0.5; % ノイズの分散
@@ -24,11 +29,8 @@ Y = fft(y);
 % 周波数ベクトルの生成
 f_vec = (0:N-1)*(1/(N*dt));
 
-% 結果のプロット
-figure;
-
 % ノイズを加えたサイン波のプロット
-subplot(2, 1, 1);
+figure;
 grid on
 hold on
 plot(times, x);
@@ -37,7 +39,7 @@ xlabel('Time (s)');
 ylabel('Amplitude');
 
 % サイン波のフーリエ変換結果のプロット
-subplot(2, 1, 2);
+figure;
 grid on
 hold on
 plot(f_vec, abs(X));
@@ -46,7 +48,7 @@ xlabel('Frequency (Hz)');
 ylabel('Amplitude');
 
 % ノイズを加えた矩形波のプロット
-subplot(2, 2, 1);
+figure;
 grid on
 hold on
 plot(times, y);
@@ -55,7 +57,7 @@ xlabel('Time (s)');
 ylabel('Amplitude');
 
 % 矩形波のフーリエ変換結果のプロット
-subplot(2, 2, 2);
+figure;
 grid on
 hold on
 plot(f_vec, abs(Y));
@@ -78,11 +80,8 @@ for i = 1:length(phi_r)
     end
 end
 
-% 結果のプロット
-figure;
-
 % ローパスフィルタ後のサイン波のプロット
-subplot(2, 3, 1);
+figure;
 grid on
 hold on
 plot(times, phi_r_f);
@@ -91,7 +90,7 @@ xlabel('Time (s)');
 ylabel('Amplitude');
 
 % ローパスフィルタの適用
-phi_r = y; % サイン波のノイズを加えた信号を使用
+phi_r = y; % 矩形波のノイズを加えた信号を使用
 phi_r_f = zeros(size(phi_r));
 D_phi_r_f = zeros(size(phi_r));
 
@@ -105,14 +104,11 @@ for i = 1:length(phi_r)
     end
 end
 
-% 結果のプロット
+% ローパスフィルタ後の矩形波のプロット
 figure;
-
-% ローパスフィルタ後のサイン波のプロット
-subplot(2, 3, 2);
 grid on
 hold on
 plot(times, phi_r_f);
-title('Noisy Square Wave');
+title('Low-Pass Filtered Square Wave');
 xlabel('Time (s)');
 ylabel('Amplitude');
