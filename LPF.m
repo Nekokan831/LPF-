@@ -44,6 +44,7 @@ grid on
 hold on
 plot(f_vec, abs(X));
 title('Fourier Transform of Noisy Sine Wave');
+xlim([-50 1050]);
 xlabel('Frequency (Hz)');
 ylabel('Amplitude');
 
@@ -62,6 +63,7 @@ grid on
 hold on
 plot(f_vec, abs(Y));
 title('Fourier Transform of Noisy Square Wave');
+xlim([-50 1050]);
 xlabel('Frequency (Hz)');
 ylabel('Amplitude');
 
