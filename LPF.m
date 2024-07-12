@@ -65,7 +65,8 @@ title('Fourier Transform of Noisy Square Wave');
 xlabel('Frequency (Hz)');
 ylabel('Amplitude');
 
-% ローパスフィルタの適用
+% １時遅れ系ローパスフィルタの適用
+% 実装方法に関しては研究室のプログラム参照
 phi_r = x; % サイン波のノイズを加えた信号を使用
 phi_r_f = zeros(size(phi_r));
 D_phi_r_f = zeros(size(phi_r));
