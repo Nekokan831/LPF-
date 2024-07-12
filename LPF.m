@@ -29,6 +29,15 @@ Y = fft(y);
 % 周波数ベクトルの生成
 f_vec = (0:N-1)*(1/(N*dt));
 
+% 元のサイン波のプロット
+figure;
+grid on
+hold on
+plot(times, x_s);
+title('Original Sine Wave');
+xlabel('Time (s)');
+ylabel('Amplitude');
+
 % ノイズを加えたサイン波のプロット
 figure;
 grid on
@@ -46,6 +55,15 @@ plot(f_vec, abs(X));
 title('Fourier Transform of Noisy Sine Wave');
 xlim([-50 1050]);
 xlabel('Frequency (Hz)');
+ylabel('Amplitude');
+
+% 元の矩形波のプロット
+figure;
+grid on
+hold on
+plot(times, y_s);
+title('Original Square Wave');
+xlabel('Time (s)');
 ylabel('Amplitude');
 
 % ノイズを加えた矩形波のプロット
